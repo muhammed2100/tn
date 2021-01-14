@@ -29,13 +29,11 @@ $ npm install reconlx
 ## 🛠 Usages (Click on it for more info on how to use it)
 + [reconDB](https://www.npmjs.com/package/reconlx#recondb) - simple way to store data into mongodb
 + [DaysAgo](https://www.npmjs.com/package/reconlx#daysago) - check how many days ago was it using date format
-+ [ReactionPages](https://www.npmjs.com/package/reconlx#ReactionPages) - simple pagination to make your "MessageEmbed" interactable.
++ [EmbedPages](https://www.npmjs.com/package/reconlx#embedpages) - simple pagination to make your "MessageEmbed" interactable.
 + [Confirmation](https://www.npmjs.com/package/reconlx#confirmation) - A reaction collector which returns the first emoji collected, can be used as a confirmation prompt.
 + [fetchTranscript](https://www.npmjs.com/package/reconlx#fetchtranscript) - Specify an amount of messages and it will return a discord chat template with messages, acts like a transcript.
 + [timeout](https://www.npmjs.com/package/reconlx#timeout) - Makes it easier to delete messages according to your needs
-+ [chatBot](https://www.npmjs.com/package/reconlx#chatbot) - Replies to your messages in discord.
-+ [hangman](https://www.npmjs.com/package/reconlx#hangman) - Hangman game now playable in discord.
-+ [tictactoe](https://www.npmjs.com/package/reconlx#tictactoe) - TicTacToe game now playable in discord.
+
 ## ✈ Importing
 
 ```javascript
@@ -69,14 +67,14 @@ client.on('guildMemberAdd', async(member) => {
 })
 ```
 
-## ReactionPages
+## EmbedPages
 #### Example : 
 ```js
 // Example on checking how long the member's account was created.
 // Import the package
 const recon = require('reconlx')
 // Destructure the package
-const ReactionPages = recon.ReactionPages
+const EmbedPages = recon.EmbedPages
 // Use either MessageEmbed or RichEmbed to make pages
 // Keep in mind that Embeds should't have their footers set since the pagination method sets page info there
 const { MessageEmbed } = require('discord.js');
@@ -87,8 +85,6 @@ const pages = [
     embed1,
     embed2
 ]
-// Change pages when sending numbers.
-const textPageChange = true;
 // Create an emojilist, first emoji being page back and second emoji being page front. Defaults are set to  ['⏪', '⏩'].
 const emojis = [
     "⏪",
@@ -96,8 +92,8 @@ const emojis = [
 ]
 // Define a time in ms, defaults are set to 60000ms which is 60 seconds. Time on how long you want the embed to be interactable
 const time = 30000
-// Call the ReactionPages method, use the <message> parameter to initialize it.
-ReactionPages(msg, pages, textPageChange, emojis, time); 
+// Call the EmbedPages method, use the <message> parameter to initialize it.
+EmbedPages(msg, pages, emojis, time);
 //There you go, now you have embed pages.
 ```
 #### Preview on a music list : 
@@ -112,7 +108,7 @@ const { confirmation } = require('reconlx')
 // Here is an example on using it in banning members.
 message.channel.send('Confirmation for banning members').then(async msg => {
   // parameters used(which msg to react on, who can acess it, reactions, time(optional))
-  const emoji = await confirmation(msg, message.author, ['✅', '❌'], 30000)
+  const emoji = confirmation(msg, message.author, ['✅', '❌'], 30000)
   if(emoji === '✅') { //if author reacts on check
     //delete the confirmation message
     msg.delete()
@@ -169,85 +165,6 @@ timeout(message, messageToDelete, 5000) // only message.author can areact, messa
 
 ![preview](https://i.imgur.com/EV8WZja.gif)
 
----
-
-## chatBot
-```js
-const { chatBot } = require('reconlx')
-
-/** @parameters
- * message, message.channel
- * input, input to give
-*/
-
-// example
-
- chatBot(message, args.join(" "))
-```
-
-
-### Preview
-![preview](https://imgur.com/DeThtZJ.png)
-
----
-
-## hangman
-```js
-//importing
-const { hangman } = require('reconlx')
-
-// parameters
-    /**
-     * @name hangman
-     * @param {Object} options options
-     * @param {String} [options.channelID] channel to send to (channel.id)
-     * @param {any} [options.message] parameter used for message event
-     * @param {String} [options.permission] required permission to use this command (optional); default set to everyone.
-     * @param {String} [options.word] word that needed to be guessed
-     * @param {any} [options.client] client used to defined Discord.Client
-     */
-
-    // making hangman
-        const hang = new hangman({
-            message: message,
-            word:  args.slice(1).join(" "),
-            client: client,
-            channelID: message.mentions.channels.first()
-        })
-
-    // starting the game
-        hang.start()
-```
-
-
-###  Preview 
-![preview](https://imgur.com/GSRHlRr.png)
-
-## tictactoe
-```js
-//importing
-const { tictactoe } = require('reconlx')
-
-// parameters
-      /**
-     * @name tictactoe
-     * @param {Object} options options
-     * @param {any} [options.message] parameter used for message event
-     * @param {any} [options.player_two] second player in the game.
-     */
-
-    // start the game
-
-    var game = new tictactoe({
-      message: message,
-      player_two : message.mentions.members.first()
-    })
-
-```
-
-
-### Preview
-![preview](https://imgur.com/lxKhF1b.png)
 
 ---
 ---
@@ -312,18 +229,3 @@ db.delete('key')
 // checking for data
 db.has('key') // returns => false
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
